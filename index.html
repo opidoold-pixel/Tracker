@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Track your shipment</title>
+<meta name="description" content="Enter your tracking number to see live shipment status and delivery details.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Track your shipment">
+<meta property="og:description" content="Enter your tracking number to see live shipment status and delivery details.">
+<meta name="twitter:card" content="summary">
+<style>
+:root{--bg:#ffffff;--bg2:#ffffff;--card:#ffffff;--card2:#f4f7fb;--text:#0e1a2e;--muted:#5c6f8a;--bd:#e0e7f1;--acc:#0aa89a;--acc2:#3b6df0;--red:#e5484d;--green:#12a36b;--amber:#d98a00;color-scheme:light;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:#ffffff;color:var(--text);font-family:Inter,Roboto,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.45;min-height:100vh}
+.wrap{max-width:1040px;margin:0 auto;padding:16px 16px 70px}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0 24px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.1rem}
+.brand i{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;font-style:normal}
+.nav .r{display:flex;gap:10px;align-items:center}
+.lnk{color:var(--muted);background:none;border:0;font:inherit;cursor:pointer;padding:6px 4px}.lnk:hover{color:var(--text)}
+.pillb{border:1px solid var(--bd);border-radius:99px;padding:7px 14px;color:var(--text);background:var(--card);cursor:pointer;font:inherit;font-size:.9rem}
+h1{font-size:clamp(2rem,6vw,3rem);margin:0 0 8px;line-height:1.08;letter-spacing:-.02em}
+.sub{color:var(--muted);margin:0 0 22px;max-width:560px}
+.row{display:flex;gap:10px}
+input,select,textarea{font:inherit;width:100%;padding:14px 15px;border-radius:12px;border:1px solid var(--bd);background:var(--card);color:var(--text);min-width:0}
+input:focus,select:focus{outline:2px solid var(--acc);outline-offset:-1px}
+.btn{font:inherit;font-weight:600;border:0;border-radius:12px;padding:13px 22px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;cursor:pointer;white-space:nowrap}
+.btn.alt{background:var(--card2);color:var(--text);border:1px solid var(--bd)}.btn.red{background:transparent;color:var(--red);border:1px solid var(--red)}
+.card{background:#ffffff;border:1px solid var(--bd);border-radius:18px;padding:22px;margin-top:16px;box-shadow:0 6px 24px rgba(20,40,80,.07)}
+.card h3{margin:0 0 16px;font-size:1.05rem}
+.msg{margin-top:12px;color:var(--red);font-size:.92rem}.msg.ok{color:var(--green)}
+.cols{display:grid;gap:0 18px;grid-template-columns:1fr}
+@media(min-width:860px){.cols{grid-template-columns:1.35fr 1fr}}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:99px;font-weight:600;font-size:.82rem;background:color-mix(in srgb,var(--c) 18%,transparent);color:var(--c)}
+.pill:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c)}
+.big{font-size:1.9rem;font-weight:750;margin:10px 0 2px;letter-spacing:-.01em}
+.mut{color:var(--muted);font-size:.88rem}
+.eta{text-align:right}.eta b{display:block;font-size:1.25rem}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);margin:30px 0 6px}
+.st{position:relative;text-align:center;font-size:.72rem;color:var(--muted)}
+.st:before{content:"";position:absolute;top:19px;left:-50%;width:100%;height:3px;background:var(--bd)}.st:first-child:before{display:none}
+.st.done:before,.st.now:before{background:var(--acc)}
+.st i{position:relative;z-index:1;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;margin:0 auto 7px;background:var(--card2);border:2px solid var(--bd);font-style:normal;font-size:1.05rem}
+.st.done i{background:var(--acc);border-color:var(--acc);color:#fff}
+.st.now i{border-color:var(--acc);box-shadow:0 0 0 6px rgba(61,214,198,.2)}.st.now,.st.done{color:var(--text)}
+.route{display:flex;justify-content:space-between;gap:10px;margin-top:18px;padding-top:16px;border-top:1px solid var(--bd)}
+.route div:last-child{text-align:right}.route b{display:block;font-size:1.05rem}
+.addr{font-size:1.02rem;line-height:1.6}.addr .nm{font-weight:700;font-size:1.12rem}
+.addr a{color:var(--acc);text-decoration:none}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:14px}.kv b{display:block;font-weight:600}
+.ups{list-style:none;margin:0;padding:0}
+.ups li{position:relative;padding:0 0 20px 30px}.ups li:before{content:"";position:absolute;left:6px;top:14px;bottom:-4px;width:2px;background:var(--bd)}.ups li:last-child:before{display:none}
+.ups li i{position:absolute;left:0;top:4px;width:15px;height:15px;border-radius:50%;background:var(--bd)}
+.ups li:first-child i{background:var(--acc);box-shadow:0 0 0 5px rgba(61,214,198,.22)}
+.ups b{display:block}.ups em{display:block;font-style:normal;font-size:.92rem;margin-top:2px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.full{grid-column:1/-1}
+@media(max-width:520px){.grid{grid-template-columns:1fr}}
+label{display:block;font-size:.76rem;color:var(--muted);margin:0 0 5px 2px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.chip{padding:8px 14px;border-radius:99px;border:1px solid var(--bd);background:var(--card);color:var(--text);cursor:pointer;font:inherit;font-size:.9rem}
+.chip.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:6px}
+.stats div{background:var(--card2);border:1px solid var(--bd);border-radius:14px;padding:14px}.stats b{display:block;font-size:1.5rem}
+.upr{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:11px 0;border-top:1px solid var(--bd)}
+.bar{position:sticky;bottom:calc(10px + env(safe-area-inset-bottom,0px));margin-top:18px;display:flex;gap:10px;background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:10px;box-shadow:0 8px 30px rgba(20,40,80,.14)}.bar .btn{flex:1}
+.note{font-size:.8rem;color:var(--muted);margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script id="data" type="application/json">{"biz":"Your Business Name","ships":{"201919":{"from":"    Thessaloniki","to":"    Ioannina","prepared":"Antonio ","eta":"24Nov-28Nov","updates":[{"ts":"2026-11-20T23:08:00.000Z","status":"Order received","loc":"London","note":"","tz":"Europe/London"},{"ts":"2026-11-19T17:56:00.000Z","status":"Order received","loc":"Lagos","note":"Shipment registered","tz":"Africa/Lagos"}]},"653234":{"from":"","to":"","prepared":"","eta":"","updates":[{"ts":"2026-11-20T22:19:27.480Z","tz":"Africa/Lagos","status":"Order received","loc":"","note":""}]}}}</script>
+<script>
+const HASH="d49d6e4a368ff380cc58bc023a22d17790cb43581a66463b372bbc40892b677c",SALT="trk-salt:";
+const ST={"Order received":[8,"#8fa2bd",0],"Picked up":[22,"#5b8cff",1],"In transit":[50,"#5b8cff",2],"Arrived at hub":[66,"#5b8cff",2],"Customs clearance":[78,"#f5a524",2],"Out for delivery":[90,"#f5a524",3],"Delivered":[100,"#2fd08a",4],"On hold":[null,"#ff6b6b",null]};
+const STEPS=[["🧾","Order received"],["📦","Picked up"],["✈️","In transit"],["🚚","Out for delivery"],["✅","Delivered"]];
+const FIELDS=["name","phone","street","city","state","country","postal","from","to","eta","service"];
+let D=JSON.parse(document.getElementById("data").textContent);
+const app=document.getElementById("app");
+let view="home",q="",qmsg="",cur=null,authed=false,S=null,LOG=[],BASE="",BIZ0="",ADM="",ME="Admin",sel=null,flt="",dirty=false,fails=0,lockUntil=0,adminMsg=null,ART=null,F=null;
+try{claude.use("artifact").then(a=>{ART=a}).catch(()=>{})}catch(e){}
+
+const E=(t,p={},...k)=>{const e=document.createElement(t);for(const[a,v]of Object.entries(p)){if(a==="class")e.className=v;else if(a.startsWith("on"))e[a]=v;else if(v!=null)e.setAttribute(a,v)}for(const c of k.flat())if(c!=null)e.append(c);return e};
+const ZONES=Intl.supportedValuesOf?Intl.supportedValuesOf("timeZone"):["UTC"],MYTZ=Intl.DateTimeFormat().resolvedOptions().timeZone||"UTC";
+const fmt=(s,tz)=>{const d=new Date(s);if(isNaN(d))return s;try{return d.toLocaleString("en-US",{timeZone:tz||undefined,month:"short",day:"numeric",year:"numeric",hour:"numeric",minute:"2-digit",timeZoneName:"short"})}catch(e){return d.toLocaleString()}};
+const localNow=l=>{if(!l||!l.tz)return"—";try{return new Date().toLocaleString("en-US",{timeZone:l.tz,hour:"numeric",minute:"2-digit",timeZoneName:"short"})}catch(e){return"—"}};
+const parts=(ms,tz)=>{const o={};new Intl.DateTimeFormat("en-CA",{timeZone:tz,hourCycle:"h23",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"}).formatToParts(new Date(ms)).forEach(p=>o[p.type]=p.value);return o};
+const toInput=(ms,tz)=>{const p=parts(ms,tz);return `${p.year}-${p.month}-${p.day}T${p.hour}:${p.minute}`};
+const nowIn=tz=>toInput(Date.now(),tz);
+const fromInput=(v,tz)=>{const[a,b]=v.split("T"),[y,mo,d]=a.split("-").map(Number),[h,mi]=b.split(":").map(Number),W=Date.UTC(y,mo-1,d,h,mi);let t=W;for(let i=0;i<3;i++){const p=parts(t,tz);t-=Date.UTC(p.year,p.month-1,p.day,p.hour,p.minute)-W}return new Date(t).toISOString()};
+const TZ={lagos:"Africa/Lagos",nigeria:"Africa/Lagos",abuja:"Africa/Lagos",accra:"Africa/Accra",athens:"Europe/Athens",greece:"Europe/Athens",thessaloniki:"Europe/Athens",ioannina:"Europe/Athens",lesotho:"Africa/Maseru",maseru:"Africa/Maseru",johannesburg:"Africa/Johannesburg","south africa":"Africa/Johannesburg","cape town":"Africa/Johannesburg",nairobi:"Africa/Nairobi",cairo:"Africa/Cairo",london:"Europe/London",uk:"Europe/London",england:"Europe/London",paris:"Europe/Paris",france:"Europe/Paris",berlin:"Europe/Berlin",germany:"Europe/Berlin",madrid:"Europe/Madrid",rome:"Europe/Rome",italy:"Europe/Rome",amsterdam:"Europe/Amsterdam",istanbul:"Europe/Istanbul",turkey:"Europe/Istanbul",moscow:"Europe/Moscow",dubai:"Asia/Dubai",doha:"Asia/Qatar",riyadh:"Asia/Riyadh",karachi:"Asia/Karachi",mumbai:"Asia/Kolkata",delhi:"Asia/Kolkata",india:"Asia/Kolkata",bangkok:"Asia/Bangkok",singapore:"Asia/Singapore",manila:"Asia/Manila","hong kong":"Asia/Hong_Kong",shanghai:"Asia/Shanghai",beijing:"Asia/Shanghai",china:"Asia/Shanghai",tokyo:"Asia/Tokyo",japan:"Asia/Tokyo",seoul:"Asia/Seoul",sydney:"Australia/Sydney",melbourne:"Australia/Melbourne",auckland:"Pacific/Auckland","new york":"America/New_York",miami:"America/New_York",atlanta:"America/New_York",boston:"America/New_York",chicago:"America/Chicago",houston:"America/Chicago",dallas:"America/Chicago",denver:"America/Denver","los angeles":"America/Los_Angeles","san francisco":"America/Los_Angeles",seattle:"America/Los_Angeles",toronto:"America/Toronto",vancouver:"America/Vancouver","mexico city":"America/Mexico_City","sao paulo":"America/Sao_Paulo",usa:"America/New_York"};
+const guessTz=l=>{l=(l||"").toLowerCase();let b=null;for(const k in TZ)if(new RegExp("\\b"+k+"\\b").test(l)&&(!b||k.length>b.length))b=k;return b?TZ[b]:null};
+
+/* crypto: per-shipment data is sealed with its tracking number; the admin vault with the admin code */
+const te=new TextEncoder(),td=new TextDecoder(),b64=b=>btoa(String.fromCharCode(...new Uint8Array(b))),ub64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function sha(t){return[...new Uint8Array(await crypto.subtle.digest("SHA-256",te.encode(t)))].map(x=>x.toString(16).padStart(2,"0")).join("")}
+async function key(pw){const m=await crypto.subtle.importKey("raw",te.encode(pw),"PBKDF2",false,["deriveKey"]);return crypto.subtle.deriveKey({name:"PBKDF2",salt:te.encode("trk-v3"),iterations:150000,hash:"SHA-256"},m,{name:"AES-GCM",length:256},false,["encrypt","decrypt"])}
+async function seal(o,pw){const iv=crypto.getRandomValues(new Uint8Array(12));return b64(iv)+"."+b64(await crypto.subtle.encrypt({name:"AES-GCM",iv},await key(pw),te.encode(JSON.stringify(o))))}
+async function unseal(s,pw){const[i,c]=s.split(".");return JSON.parse(td.decode(await crypto.subtle.decrypt({name:"AES-GCM",iv:ub64(i)},await key(pw),ub64(c))))}
+const cid=c=>sha(SALT+"id:"+c);
+
+const sortU=s=>s.updates.sort((a,b)=>new Date(b.ts)-new Date(a.ts));
+const mig=s=>{s.name=String(s.name||s.prepared||"").trim();delete s.prepared;FIELDS.forEach(f=>s[f]=String(s[f]||"").trim());s.updates.forEach(u=>{if(!u.tz){u.tz=guessTz(u.loc)||"UTC";if(!/Z$/.test(u.ts)){try{u.ts=fromInput(u.ts,u.tz)}catch(e){}}}});sortU(s);return s};
+const okU=s=>sortU(s).find(u=>(ST[u.status]||[])[0]!=null);
+const pct=s=>{const u=okU(s);return u?ST[u.status][0]:0};
+const stepOf=s=>{const u=okU(s);return u?ST[u.status][2]:0};
+const addr=s=>[s.name,s.street,[s.city,[s.state,s.postal].filter(Boolean).join(" ")].filter(Boolean).join(", "),s.country].filter(Boolean);
+const dest=s=>s.to||[s.city,s.country].filter(Boolean).join(", ")||"—";
+async function find(c){
+ if(D.ships&&D.ships[c])return mig(D.ships[c]);
+ const h=D.pub&&D.pub[await cid(c)];
+ if(h)try{return mig(await unseal(h,c))}catch(e){}
+ return null}
+
+function diff(a,b){const L=[];for(const c in b){if(!a[c]){L.push("Created shipment "+c);continue}
+ for(const f of FIELDS)if((a[c][f]||"")!==(b[c][f]||""))L.push(`${c}: ${f} changed “${a[c][f]||"(empty)"}” → “${b[c][f]||"(empty)"}”`);
+ if(JSON.stringify(a[c].updates)!==JSON.stringify(b[c].updates))L.push(`${c}: tracking history updated (${b[c].updates.length} entries)`)}
+ for(const c in a)if(!b[c])L.push("Deleted shipment "+c);return L}
+
+function nav(){return E("div",{class:"nav"},E("div",{class:"brand"},E("i",{},"📦"),D.biz),E("div",{class:"r"},
+ view==="home"?E("button",{class:"lnk",onclick:()=>{view=authed?"admin":"login";draw()}},"Admin"):E("button",{class:"lnk",onclick:()=>{view="home";cur=null;draw()}},"← Tracking")))}
+
+function home(){
+ const out=E("div"),inp=E("input",{placeholder:"Enter tracking number",autocomplete:"off","aria-label":"Tracking number"});inp.value=q;
+ const go=async()=>{q=inp.value.trim();qmsg="";cur=null;if(!q)qmsg="Enter a tracking number.";else{cur=await find(q);if(!cur)qmsg="We couldn’t find that tracking number. Please check it and try again."}draw()};
+ inp.onkeydown=e=>{if(e.key==="Enter")go()};
+ out.append(E("h1",{},"Track your shipment"),E("p",{class:"sub"},"Enter your tracking number to see live status, delivery estimate and full delivery details."),E("div",{class:"row"},inp,E("button",{class:"btn",onclick:go},"Track")),E("div",{class:"msg"},qmsg));
+ const s=cur;if(!s)return out;
+ const last=sortU(s)[0],ok=okU(s),hold=last&&last.status==="On hold",c=last?(ST[last.status]||ST["Order received"])[1]:"#8fa2bd",step=stepOf(s);
+ const steps=E("div",{class:"steps"},STEPS.map((x,i)=>E("div",{class:"st "+(i<step||step===4?"done":i===step?"now":"")},E("i",{},i<step||step===4?"✓":x[0]),x[1])));
+ const A=addr(s),ph=s.phone?E("a",{href:"tel:"+s.phone.replace(/[^\d+]/g,"")},s.phone):null;
+ const left=E("div",{},E("div",{class:"card"},E("div",{class:"top"},
+   E("div",{},E("span",{class:"pill",style:"--c:"+c},last?last.status:"Pending"),E("div",{class:"big"},hold?"Delivery on hold":ok&&ok.status==="Delivered"?"Delivered":"On its way"),E("div",{class:"mut"},"Tracking no. "+q)),
+   E("div",{class:"eta"},E("span",{class:"mut"},"Estimated delivery"),E("b",{},s.eta||"To be confirmed"))),steps,
+  E("div",{class:"route"},E("div",{},E("span",{class:"mut"},"From"),E("b",{},s.from||"—")),E("div",{},E("span",{class:"mut"},"To"),E("b",{},dest(s))))),
+  E("div",{class:"card"},E("h3",{},"Tracking history"),E("ul",{class:"ups"},s.updates.map(x=>E("li",{},E("i"),E("b",{},x.status),E("span",{class:"mut"},fmt(x.ts,x.tz)+(x.loc?" · "+x.loc:"")),x.note?E("em",{},x.note):null)))));
+ const right=E("div",{},E("div",{class:"card"},E("h3",{},"📍 Delivery address"),A.length?E("div",{class:"addr"},A.map((l,i)=>E("div",{class:i===0&&s.name?"nm":""},l)),ph?E("div",{},"☎ ",ph):null):E("div",{class:"mut"},"Address not yet provided.")),
+  E("div",{class:"card"},E("h3",{},"Shipment details"),E("div",{class:"kv"},
+   E("div",{},E("span",{class:"mut"},"Service"),E("b",{},s.service||"Standard")),E("div",{},E("span",{class:"mut"},"Progress"),E("b",{},pct(s)+"%")),
+   E("div",{},E("span",{class:"mut"},"Current location"),E("b",{},last&&last.loc||"—")),E("div",{},E("span",{class:"mut"},"Last updated"),E("b",{},last?fmt(last.ts,last.tz):"—")),
+   last&&last.tz?E("div",{class:"full"},E("span",{class:"mut"},"Local time there now"),E("b",{},localNow(last))):null)));
+ out.append(E("div",{class:"cols"},left,right));return out}
+
+function login(){
+ const inp=E("input",{type:"password",inputmode:"numeric",placeholder:"Admin code",autocomplete:"off"}),m=E("div",{class:"msg"});
+ const go=async()=>{
+  if(Date.now()<lockUntil){m.textContent="Too many attempts. Wait "+Math.ceil((lockUntil-Date.now())/1000)+"s.";return}
+  const code=inp.value.trim();
+  if(await sha(SALT+code)!==HASH){fails++;if(fails>=5){lockUntil=Date.now()+60000;fails=0}m.textContent="Incorrect code.";inp.value="";return}
+  try{if(D.vault){const v=await unseal(D.vault,code);S=v.ships;LOG=v.log||[]}else{S=D.ships||{};LOG=[]}}catch(e){m.textContent="Couldn’t open the secure vault.";return}
+  Object.values(S).forEach(mig);BASE=JSON.stringify(S);BIZ0=D.biz;ADM=code;authed=true;fails=0;sel=Object.keys(S)[0]||null;
+  try{const u=await claude.use("user");if(u){const me=await u.me();ME=me.name||"Owner"}}catch(e){}
+  view="admin";draw()};
+ inp.onkeydown=e=>{if(e.key==="Enter")go()};
+ return E("div",{},E("h1",{},"Admin access"),E("p",{class:"sub"},"Enter your private admin code to manage shipments."),E("div",{class:"row"},inp,E("button",{class:"btn",onclick:go},"Unlock")),m)}
+
+function admin(){
+ const root=E("div"),s=S[sel],codes=Object.keys(S);
+ const f=(l,o,k,x={})=>{const i=E("input",{type:x.type||"text",placeholder:x.ph||"",autocomplete:"off"});i.value=o[k]||"";i.oninput=()=>{o[k]=i.value;dirty=true};return E("div",{class:x.full?"full":""},E("label",{},l),i)};
+ const n=st=>codes.filter(c=>{const l=sortU(S[c])[0];return l&&l.status===st}).length;
+ root.append(E("h1",{},"Admin dashboard"),E("p",{class:"sub"},"Signed in as "+ME+". Edit anything below, then press Save & publish to update the live tracking page."),
+  E("div",{class:"stats"},E("div",{},E("b",{},codes.length),"Shipments"),E("div",{},E("b",{},codes.filter(c=>stepOf(S[c])<4).length),"Active"),E("div",{},E("b",{},n("Delivered")),"Delivered"),E("div",{},E("b",{},n("On hold")),"On hold")));
+ root.append(E("div",{class:"card"},E("h3",{},"Business"),f("Business name",D,"biz")));
+ const fi=E("input",{placeholder:"Filter by number or name"});fi.value=flt;fi.oninput=()=>{flt=fi.value;const p=fi.selectionStart;draw();const x=document.querySelector("input[placeholder^='Filter']");x&&(x.focus(),x.setSelectionRange(p,p))};
+ const vis=codes.filter(c=>!flt||c.includes(flt)||S[c].name.toLowerCase().includes(flt.toLowerCase()));
+ root.append(E("div",{class:"card"},E("h3",{},"Shipments"),codes.length>6?fi:null,E("div",{class:"tabs"},vis.map(c=>E("button",{class:"chip"+(c===sel?" on":""),onclick:()=>{sel=c;F=null;draw()}},c+(S[c].name?" · "+S[c].name.split(" ")[0]:""))),
+  E("button",{class:"chip",onclick:async()=>{let c=(prompt("New tracking number (leave blank to generate a secure one)")||"").trim();if(!c)c=String(Math.floor(1e9+Math.random()*9e9));if(S[c]){alert("That number already exists.");return}S[c]=mig({updates:[{ts:new Date().toISOString(),tz:MYTZ,status:"Order received",loc:"",note:""}]});sel=c;F=null;dirty=true;draw()}},"+ New"))));
+ if(s){
+  root.append(E("div",{class:"card"},E("h3",{},"Recipient · "+sel),E("div",{class:"grid"},f("Full name",s,"name"),f("Phone number",s,"phone",{type:"tel",ph:"+30 690 000 0000"}))),
+   E("div",{class:"card"},E("h3",{},"Delivery address"),E("div",{class:"grid"},f("Street address",s,"street",{full:1}),f("City",s,"city"),f("State / Region",s,"state"),f("Postal code",s,"postal"),f("Country",s,"country"))),
+   E("div",{class:"card"},E("h3",{},"Shipment"),E("div",{class:"grid"},f("From",s,"from"),f("To (shown on route — defaults to city, country)",s,"to"),f("Estimated delivery",s,"eta",{ph:"e.g. 24–28 Nov 2026"}),f("Service",s,"service",{ph:"e.g. Express"})),
+   E("div",{style:"display:flex;gap:10px;margin-top:16px;flex-wrap:wrap"},
+    E("button",{class:"btn alt",onclick:()=>{q=sel;qmsg="";cur=s;view="home";draw()}},"Preview"),
+    E("button",{class:"btn alt",onclick:()=>{const x=(prompt("New tracking number",sel)||"").trim();if(!x||x===sel)return;if(S[x]){alert("That number already exists.");return}S[x]=S[sel];delete S[sel];sel=x;F=null;dirty=true;draw()}},"Change number"),
+    E("button",{class:"btn red",onclick:()=>{if(confirm("Delete shipment "+sel+"?")){delete S[sel];sel=Object.keys(S)[0]||null;dirty=true;draw()}}},"Delete"))));
+  if(!F||F.code!==sel){const lu=sortU(s)[0];F={code:sel,edit:null,status:"In transit",loc:"",tz:lu&&lu.tz||MYTZ,time:"",note:"",manual:false};F.time=nowIn(F.tz)}
+  const st=E("select",{},Object.keys(ST).map(x=>E("option",{},x))),loc=E("input",{placeholder:"Any city, country or place"}),tzI=E("input",{list:"zones",placeholder:"e.g. Europe/Athens"}),ts=E("input",{type:"datetime-local"}),note=E("input",{placeholder:"Optional note for the customer"}),pv=E("div",{class:"note"});
+  st.value=F.status;loc.value=F.loc;tzI.value=F.tz;ts.value=F.time;note.value=F.note;
+  const prev=()=>{try{pv.textContent=ts.value?"Customers will see: "+fmt(fromInput(ts.value,F.tz),F.tz):""}catch(e){pv.textContent="Pick a valid time zone."}};
+  const setTz=z=>{F.tz=z;tzI.value=z;if(!F.manual){F.time=nowIn(z);ts.value=F.time}prev()};
+  st.onchange=()=>F.status=st.value;note.oninput=()=>F.note=note.value;
+  loc.oninput=()=>{F.loc=loc.value;const g=guessTz(loc.value);if(g&&g!==F.tz)setTz(g)};
+  tzI.onchange=()=>{if(ZONES.includes(tzI.value))setTz(tzI.value);else{tzI.value=F.tz;alert("Choose a time zone from the list, e.g. Europe/Athens.")}};
+  ts.oninput=()=>{F.time=ts.value;F.manual=true;prev()};prev();
+  root.append(E("datalist",{id:"zones"},ZONES.map(z=>E("option",{value:z}))),
+   E("div",{class:"card"},E("h3",{},F.edit?"Edit update":"Add update / move location"),E("div",{class:"grid"},
+    E("div",{},E("label",{},"Status"),st),E("div",{},E("label",{},"Time zone (auto-detected)"),tzI),E("div",{class:"full"},E("label",{},"Current location"),loc),E("div",{},E("label",{},"Local date & time there"),ts),E("div",{},E("label",{},"Note"),note)),pv,
+    E("div",{style:"display:flex;gap:10px;margin-top:14px;flex-wrap:wrap"},
+     E("button",{class:"btn",style:"flex:1",onclick:()=>{if(!F.loc.trim()){alert("Enter a location.");return}let iso;try{iso=fromInput(F.time||nowIn(F.tz),F.tz)}catch(e){alert("Check the time zone and time.");return}const u={ts:iso,tz:F.tz,status:F.status,loc:F.loc.trim(),note:F.note.trim()};if(F.edit)s.updates[s.updates.indexOf(F.edit)]=u;else s.updates.push(u);sortU(s);dirty=true;F=null;draw()}},F.edit?"Save changes":"Add update"),
+     E("button",{class:"btn alt",onclick:()=>{F.manual=false;setTz(F.tz)}},"Use time now there"),F.edit?E("button",{class:"btn alt",onclick:()=>{F=null;draw()}},"Cancel"):null)),
+   E("div",{class:"card"},E("h3",{},"Tracking history"),sortU(s).map(u=>E("div",{class:"upr"},E("div",{},E("b",{},u.status+(u.loc?" · "+u.loc:"")),E("div",{class:"mut"},fmt(u.ts,u.tz)+(u.note?" — "+u.note:""))),E("div",{style:"display:flex;gap:14px"},
+    E("button",{class:"lnk",onclick:()=>{const z=u.tz||MYTZ;F={code:sel,edit:u,status:u.status,loc:u.loc||"",tz:z,time:toInput(new Date(u.ts).getTime(),z),note:u.note||"",manual:true};draw();scrollTo({top:0,behavior:"smooth"})}},"Edit"),
+    E("button",{class:"lnk",onclick:()=>{s.updates.splice(s.updates.indexOf(u),1);dirty=true;draw()}},"Remove"))))))}
+ root.append(E("div",{class:"card"},E("h3",{},"Activity log"),LOG.length?LOG.slice(0,40).map(l=>E("div",{class:"upr"},E("div",{},E("b",{},l.a),E("div",{class:"mut"},l.by+" · "+fmt(l.t)))) ):E("div",{class:"mut"},"No activity recorded yet.")));
+ if(!ART)root.append(ghCard());
+ root.append(E("div",{class:"msg"+(adminMsg&&adminMsg.ok?" ok":"")},adminMsg?adminMsg.t:""),E("div",{class:"bar"},E("button",{class:"btn alt",onclick:()=>{authed=false;S=null;ADM="";view="home";cur=null;draw()}},"Lock"),E("button",{class:"btn",onclick:save},dirty?"Save & publish ●":"Save & publish")),
+  E("p",{class:"note"},"Shipment details are encrypted in the published page with each tracking number, and the admin vault with your admin code. Only the page owner’s account can publish."));
+ return root}
+
+function ghCfg(){let c={};try{c=JSON.parse(localStorage.getItem("ghcfg")||"{}")}catch(e){}const h=location.hostname.endsWith("github.io");return{o:c.o||(h?location.hostname.split(".")[0]:""),r:c.r||(h?location.pathname.split("/")[1]:""),t:c.t||""}}
+function ghSet(k,v){const c=ghCfg();c[k]=v;try{localStorage.setItem("ghcfg",JSON.stringify(c))}catch(e){}}
+function ghCard(){const c=ghCfg(),g=(l,k,ty)=>{const i=E("input",{type:ty||"text",autocomplete:"off"});i.value=c[k];i.oninput=()=>ghSet(k,i.value.trim());return E("div",{},E("label",{},l),i)};
+ return E("div",{class:"card"},E("h3",{},"Publishing · GitHub"),E("div",{class:"grid"},g("GitHub username","o"),g("Repository","r"),E("div",{class:"full"},g("Access token (kept in this browser only)","t","password"))),E("p",{class:"note"},"Create a fine-grained token limited to this one repository with “Contents: Read and write”. Needed once per browser."))}
+async function ghPush(html){const{o,r,t}=ghCfg(),u=`https://api.github.com/repos/${o}/${r}/contents/index.html`,H={Authorization:"Bearer "+t,Accept:"application/vnd.github+json"};
+ const g=await fetch(u,{headers:H}),j=g.ok?await g.json():{};
+ const p=await fetch(u,{method:"PUT",headers:{...H,"Content-Type":"application/json"},body:JSON.stringify({message:"Update tracking data ("+ME+")",content:btoa(unescape(encodeURIComponent(html))),sha:j.sha})});
+ if(!p.ok)throw new Error((await p.json().catch(()=>({}))).message||("GitHub error "+p.status))}
+async function save(){
+ adminMsg=null;const gh=ghCfg();
+ if(!ART&&!(gh.o&&gh.r&&gh.t)){adminMsg={t:"Fill in the “Publishing · GitHub” card first (username, repository, token)."};draw();return}
+ try{
+  const L=diff(JSON.parse(BASE),S);if(D.biz!==BIZ0)L.push(`Business name changed “${BIZ0}” → “${D.biz}”`);
+  const t=new Date().toISOString();L.reverse().forEach(a=>LOG.unshift({t,by:ME,a}));
+  const pub={};for(const c in S)pub[await cid(c)]=await seal(S[c],c);
+  const vault=await seal({ships:S,log:LOG.slice(0,500)},ADM);
+  const c=document.documentElement.cloneNode(true);
+  c.querySelector("#app").replaceChildren();
+  c.querySelectorAll("style").forEach(x=>{if(x.textContent.includes("artifact-sync"))x.remove()});
+  c.querySelectorAll("[data-theme]").forEach(n=>n.removeAttribute("data-theme"));
+  c.querySelector("title").textContent="Track your shipment";
+  c.querySelector("#data").textContent=JSON.stringify({biz:D.biz,pub,vault}).replace(/</g,"\\u003c");
+  const html="<!DOCTYPE html>\n"+c.outerHTML;
+  if(ART){dirty=false;await ART.publish(html)}
+  else{await ghPush(html);D={biz:D.biz,pub,vault};BASE=JSON.stringify(S);BIZ0=D.biz;dirty=false;adminMsg={ok:1,t:"Saved. Your live page updates in about a minute."};draw()}
+ }catch(e){dirty=true;adminMsg={t:"Couldn’t publish: "+((e&&(e.message||e.code))||"error")};draw()}}
+
+function draw(){
+ app.replaceChildren(nav(),view==="login"&&!authed?login():view==="admin"&&authed?admin():home());
+}
+draw();
+</script>
+</body>
+</html>
